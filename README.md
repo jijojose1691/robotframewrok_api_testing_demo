@@ -47,4 +47,4 @@ To run the tests written in RobotFramework, follow these steps to set up the tes
 
 * The reports can be found in Reports directory. A sample screenshot is attached below:
 
-![TestResport-Image](/screenshots/test_report.PNG "test-report")
+![TestResport-Image](/screenshots/test_report.png "test-report")
