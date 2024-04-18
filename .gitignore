@@ -1,0 +1,8 @@
+### files (MacOS) ###
+.DS_Store
+
+### VisualStudioCode ###
+*.vscode
+
+### PyCharm ###
+.idea/
