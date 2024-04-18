@@ -1,0 +1,3810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.12.0 on win32)" generated="20231105 10:14:19.558" rpa="false" schemaversion="4">
+<suite id="s1" name="Tests" source="C:\MyLab\picnic-qa-jijojose1691\Tests">
+<suite id="s1-s1" name="Cart" source="C:\MyLab\picnic-qa-jijojose1691\Tests\Cart">
+<suite id="s1-s1-s1" name="Cart Api" source="C:\MyLab\picnic-qa-jijojose1691\Tests\Cart\Cart_Api.robot">
+<kw name="Suite Setup With Authenitcation" library="Cart_Keywords" type="SETUP">
+<doc>Suit setup to make sure that the cart is empty for the recieved
+authentication token.</doc>
+<kw name="Set Server Base URL" library="Common">
+<doc>The method is to set the base URL of server where application is hosted</doc>
+<kw name="Get Variable Value" library="BuiltIn">
+<var>${HOST_IP}</var>
+<arg>${HOST_IP}</arg>
+<arg>localhost</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<msg timestamp="20231105 10:14:20.346" level="INFO">${HOST_IP} = localhost</msg>
+<status status="PASS" starttime="20231105 10:14:20.341" endtime="20231105 10:14:20.346"/>
+</kw>
+<kw name="Get Variable Value" library="BuiltIn">
+<var>${HOST_PORT}</var>
+<arg>${HOST_PORT}</arg>
+<arg>80</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<msg timestamp="20231105 10:14:20.352" level="INFO">${HOST_PORT} = 80</msg>
+<status status="PASS" starttime="20231105 10:14:20.346" endtime="20231105 10:14:20.352"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${BASE_URL}</arg>
+<arg>http://${HOST_IP}:${HOST_PORT}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20231105 10:14:20.356" level="INFO">${BASE_URL} = http://localhost:80</msg>
+<status status="PASS" starttime="20231105 10:14:20.353" endtime="20231105 10:14:20.356"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>BASE URL: ${BASE_URL}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231105 10:14:20.357" level="INFO">BASE URL: http://localhost:80</msg>
+<status status="PASS" starttime="20231105 10:14:20.357" endtime="20231105 10:14:20.357"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.340" endtime="20231105 10:14:20.357"/>
+</kw>
+<kw name="Generate Valid Authentication Token" library="Cart_Keywords">
+<var>${token}</var>
+<doc>Keyword to  generate an auth token and set it as test variable</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${AUTH_ENDPOINT}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.429" level="INFO">GET Request : url=http://localhost:80/auth/ 
+ path_url=/auth/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.429" level="INFO">GET Response : url=http://localhost:80/auth/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '48', 'content-type': 'application/json'} 
+ body={"token":"afe1733b-f363-4c6e-be36-e739b846ea79"} 
+ </msg>
+<msg timestamp="20231105 10:14:20.429" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.358" endtime="20231105 10:14:20.429"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.431" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.430" endtime="20231105 10:14:20.431"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${response_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.433" level="INFO">${response_data} = {'token': 'afe1733b-f363-4c6e-be36-e739b846ea79'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.432" endtime="20231105 10:14:20.433"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${token}</var>
+<arg>x-auth=${response_data}[token]</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231105 10:14:20.434" level="INFO">${token} = {'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.433" endtime="20231105 10:14:20.434"/>
+</kw>
+<msg timestamp="20231105 10:14:20.435" level="INFO">${token} = {'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.357" endtime="20231105 10:14:20.435"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${AUTH_TOKEN}</arg>
+<arg>${token}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20231105 10:14:20.438" level="INFO">${AUTH_TOKEN} = {'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.435" endtime="20231105 10:14:20.438"/>
+</kw>
+<kw name="Clear shopping cart" library="Cart_Keywords">
+<arg>${AUTH_TOKEN}</arg>
+<doc>Perform the request to clear shopping cart</doc>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CLEAR_CART_ENDPOINT}</arg>
+<arg>headers=${auth_token}</arg>
+<arg>expected_status=${status_code}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231105 10:14:20.455" level="INFO">POST Request : url=http://localhost:80/cart/clear 
+ path_url=/cart/clear 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.455" level="INFO">POST Response : url=http://localhost:80/cart/clear 
+ status=204, reason=No Content 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.456" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.439" endtime="20231105 10:14:20.456"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status_code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.459" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.457" endtime="20231105 10:14:20.459"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.438" endtime="20231105 10:14:20.459"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.339" endtime="20231105 10:14:20.460"/>
+</kw>
+<test id="s1-s1-s1-t1" name="[Cart API] Verify cart with zero items" line="9">
+<kw name="When I clear the shopping cart with valid auth token ${AUTH_TOKEN} with a status ${STATUS_OK}" library="Cart_Keywords" sourcename="I clear the shopping cart with valid auth token ${auth_token} with a status ${status}">
+<doc>Perform the request to clear shopping cart with given auth token and expected status code</doc>
+<kw name="Clear shopping cart" library="Cart_Keywords">
+<arg>${auth_token}</arg>
+<arg>${status}</arg>
+<doc>Perform the request to clear shopping cart</doc>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CLEAR_CART_ENDPOINT}</arg>
+<arg>headers=${auth_token}</arg>
+<arg>expected_status=${status_code}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231105 10:14:20.479" level="INFO">POST Request : url=http://localhost:80/cart/clear 
+ path_url=/cart/clear 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.479" level="INFO">POST Response : url=http://localhost:80/cart/clear 
+ status=204, reason=No Content 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.480" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.463" endtime="20231105 10:14:20.480"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status_code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.482" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.480" endtime="20231105 10:14:20.482"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.462" endtime="20231105 10:14:20.482"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.461" endtime="20231105 10:14:20.482"/>
+</kw>
+<kw name="Then I verify the shopping cart is empty" library="Cart_Keywords">
+<doc>Verify the API to  the empty cart</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CART_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.502" level="INFO">GET Request : url=http://localhost:80/cart/ 
+ path_url=/cart/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.502" level="INFO">GET Response : url=http://localhost:80/cart/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'} 
+ body={"items":[],"total":0} 
+ </msg>
+<msg timestamp="20231105 10:14:20.502" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.484" endtime="20231105 10:14:20.502"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.504" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.502" endtime="20231105 10:14:20.504"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${cart_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.507" level="INFO">${cart_data} = {'items': [], 'total': 0}</msg>
+<status status="PASS" starttime="20231105 10:14:20.505" endtime="20231105 10:14:20.507"/>
+</kw>
+<kw name="Validate Empty Cart Data" library="Cart_Keywords">
+<arg>${cart_data}</arg>
+<doc>Check whether the given cart data is matching with empty cart informarion</doc>
+<kw name="Should Be Empty" library="BuiltIn">
+<arg>${cart_data}[items]</arg>
+<doc>Verifies that the given item is empty.</doc>
+<msg timestamp="20231105 10:14:20.508" level="INFO">Length is 0</msg>
+<status status="PASS" starttime="20231105 10:14:20.508" endtime="20231105 10:14:20.508"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${cart_data}[total]</arg>
+<arg>${EMPTY_CART_SIZE}</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20231105 10:14:20.509" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.508" endtime="20231105 10:14:20.509"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.507" endtime="20231105 10:14:20.509"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.483" endtime="20231105 10:14:20.509"/>
+</kw>
+<doc>Test the API endpoint that returns an empty cart</doc>
+<tag>cart</tag>
+<tag>P0</tag>
+<status status="PASS" starttime="20231105 10:14:20.460" endtime="20231105 10:14:20.510"/>
+</test>
+<test id="s1-s1-s1-t2" name="[Cart API] Verify clear cart operation" line="15">
+<kw name="Given I add an available item to cart" library="Cart_Keywords">
+<doc>Add an avaialbe item to the customer cart</doc>
+<kw name="Choose A Random Available Product" library="Cart_Keywords">
+<var>${available_product}</var>
+<doc>Find a random available product via /products API and return as Dictionary.
+It returns None if products are not available</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.543" level="INFO">GET Request : url=http://localhost:80/products/ 
+ path_url=/products/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.544" level="INFO">GET Response : url=http://localhost:80/products/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '503', 'content-type': 'application/json'} 
+ body={"products":[{"is_available":true,"id":101,"name":"Stroopwaffel","price":1.5,"category":"SWEET"},{"is_available":true,"id":102,"name":"Banana","price":0.7,"category":"FRUIT"},{"is_available":true,"id":103,"name":"Cola","price":0.85,"category":"BEVERAGE"},{"is_available":false,"id":104,"name":"Bread","price":0.85,"category":"WHEAT"},{"is_available":false,"id":105,"name":"Milk","price":0.7,"category":"BEVERAGE"},{"is_available":false,"id":106,"name":"Apple","price":0.7,"category":"FRUIT"}],"count":6} 
+ </msg>
+<msg timestamp="20231105 10:14:20.544" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.516" endtime="20231105 10:14:20.544"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.547" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.544" endtime="20231105 10:14:20.547"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${product_list}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.550" level="INFO">${product_list} = {'products': [{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}, {'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}, {'is...</msg>
+<status status="PASS" starttime="20231105 10:14:20.548" endtime="20231105 10:14:20.550"/>
+</kw>
+<for flavor="IN">
+<var>${product}</var>
+<value>@{product_list}[products]</value>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</var>
+<kw name="Get From Dictionary" library="Collections">
+<var>${is_available}</var>
+<arg>${product}</arg>
+<arg>is_available</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:20.551" level="INFO">${is_available} = True</msg>
+<status status="PASS" starttime="20231105 10:14:20.551" endtime="20231105 10:14:20.551"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${is_available} == True</arg>
+<arg>Return From Keyword</arg>
+<arg>${product}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<kw name="Return From Keyword" library="BuiltIn">
+<arg>${product}</arg>
+<doc>Returns from the enclosing user keyword.</doc>
+<msg timestamp="20231105 10:14:20.553" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" starttime="20231105 10:14:20.553" endtime="20231105 10:14:20.554"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.552" endtime="20231105 10:14:20.559"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.551" endtime="20231105 10:14:20.559"/>
+</iter>
+<status status="PASS" starttime="20231105 10:14:20.550" endtime="20231105 10:14:20.559"/>
+</for>
+<msg timestamp="20231105 10:14:20.559" level="INFO">${available_product} = {'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.516" endtime="20231105 10:14:20.560"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${products_to_be_add}</var>
+<arg>product_id=${available_product}[id]</arg>
+<arg>quantity=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231105 10:14:20.563" level="INFO">${products_to_be_add} = {'product_id': 101, 'quantity': '1'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.561" endtime="20231105 10:14:20.563"/>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<var>${cart_list}</var>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20231105 10:14:20.563" level="INFO">${cart_list} = []</msg>
+<status status="PASS" starttime="20231105 10:14:20.563" endtime="20231105 10:14:20.563"/>
+</kw>
+<kw name="Append To List" library="Collections">
+<arg>${cart_list}</arg>
+<arg>${products_to_be_add}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20231105 10:14:20.563" endtime="20231105 10:14:20.564"/>
+</kw>
+<kw name="PATCH" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CART_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<arg>json=${cart_list}</arg>
+<doc>Sends a PUT request.</doc>
+<msg timestamp="20231105 10:14:20.625" level="INFO">PATCH Request : url=http://localhost:80/cart/ 
+ path_url=/cart/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '38', 'Content-Type': 'application/json'} 
+ body=b'[{"product_id": 101, "quantity": "1"}]' 
+ </msg>
+<msg timestamp="20231105 10:14:20.625" level="INFO">PATCH Response : url=http://localhost:80/cart/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '89', 'content-type': 'application/json'} 
+ body={"items":[{"quantity":1,"product_id":101,"name":"Stroopwaffel","price":1.5}],"total":1.5} 
+ </msg>
+<msg timestamp="20231105 10:14:20.625" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.564" endtime="20231105 10:14:20.625"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.628" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.626" endtime="20231105 10:14:20.628"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.515" endtime="20231105 10:14:20.628"/>
+</kw>
+<kw name="When I clear the shopping cart with valid auth token ${AUTH_TOKEN} with a status ${STATUS_OK}" library="Cart_Keywords" sourcename="I clear the shopping cart with valid auth token ${auth_token} with a status ${status}">
+<doc>Perform the request to clear shopping cart with given auth token and expected status code</doc>
+<kw name="Clear shopping cart" library="Cart_Keywords">
+<arg>${auth_token}</arg>
+<arg>${status}</arg>
+<doc>Perform the request to clear shopping cart</doc>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CLEAR_CART_ENDPOINT}</arg>
+<arg>headers=${auth_token}</arg>
+<arg>expected_status=${status_code}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231105 10:14:20.682" level="INFO">POST Request : url=http://localhost:80/cart/clear 
+ path_url=/cart/clear 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.682" level="INFO">POST Response : url=http://localhost:80/cart/clear 
+ status=204, reason=No Content 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.682" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.644" endtime="20231105 10:14:20.682"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status_code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.684" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.683" endtime="20231105 10:14:20.685"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.641" endtime="20231105 10:14:20.685"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.639" endtime="20231105 10:14:20.685"/>
+</kw>
+<kw name="Then I verify the shopping cart is empty" library="Cart_Keywords">
+<doc>Verify the API to  the empty cart</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CART_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.705" level="INFO">GET Request : url=http://localhost:80/cart/ 
+ path_url=/cart/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.705" level="INFO">GET Response : url=http://localhost:80/cart/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'} 
+ body={"items":[],"total":0} 
+ </msg>
+<msg timestamp="20231105 10:14:20.706" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.686" endtime="20231105 10:14:20.706"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.708" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.706" endtime="20231105 10:14:20.708"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${cart_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.711" level="INFO">${cart_data} = {'items': [], 'total': 0}</msg>
+<status status="PASS" starttime="20231105 10:14:20.709" endtime="20231105 10:14:20.711"/>
+</kw>
+<kw name="Validate Empty Cart Data" library="Cart_Keywords">
+<arg>${cart_data}</arg>
+<doc>Check whether the given cart data is matching with empty cart informarion</doc>
+<kw name="Should Be Empty" library="BuiltIn">
+<arg>${cart_data}[items]</arg>
+<doc>Verifies that the given item is empty.</doc>
+<msg timestamp="20231105 10:14:20.712" level="INFO">Length is 0</msg>
+<status status="PASS" starttime="20231105 10:14:20.712" endtime="20231105 10:14:20.712"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${cart_data}[total]</arg>
+<arg>${EMPTY_CART_SIZE}</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20231105 10:14:20.713" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.713" endtime="20231105 10:14:20.713"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.711" endtime="20231105 10:14:20.714"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.686" endtime="20231105 10:14:20.714"/>
+</kw>
+<doc>Test the API endpoint that clears the shopping cart</doc>
+<tag>cart</tag>
+<tag>P0</tag>
+<status status="PASS" starttime="20231105 10:14:20.513" endtime="20231105 10:14:20.714"/>
+</test>
+<test id="s1-s1-s1-t3" name="[Cart API] Verify clear cart with wrong authentication token" line="23">
+<kw name="Given I add an available item to cart" library="Cart_Keywords">
+<doc>Add an avaialbe item to the customer cart</doc>
+<kw name="Choose A Random Available Product" library="Cart_Keywords">
+<var>${available_product}</var>
+<doc>Find a random available product via /products API and return as Dictionary.
+It returns None if products are not available</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.736" level="INFO">GET Request : url=http://localhost:80/products/ 
+ path_url=/products/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.736" level="INFO">GET Response : url=http://localhost:80/products/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '503', 'content-type': 'application/json'} 
+ body={"products":[{"is_available":true,"id":101,"name":"Stroopwaffel","price":1.5,"category":"SWEET"},{"is_available":true,"id":102,"name":"Banana","price":0.7,"category":"FRUIT"},{"is_available":true,"id":103,"name":"Cola","price":0.85,"category":"BEVERAGE"},{"is_available":false,"id":104,"name":"Bread","price":0.85,"category":"WHEAT"},{"is_available":false,"id":105,"name":"Milk","price":0.7,"category":"BEVERAGE"},{"is_available":false,"id":106,"name":"Apple","price":0.7,"category":"FRUIT"}],"count":6} 
+ </msg>
+<msg timestamp="20231105 10:14:20.737" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.721" endtime="20231105 10:14:20.737"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.741" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.738" endtime="20231105 10:14:20.741"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${product_list}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.743" level="INFO">${product_list} = {'products': [{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}, {'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}, {'is...</msg>
+<status status="PASS" starttime="20231105 10:14:20.741" endtime="20231105 10:14:20.744"/>
+</kw>
+<for flavor="IN">
+<var>${product}</var>
+<value>@{product_list}[products]</value>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</var>
+<kw name="Get From Dictionary" library="Collections">
+<var>${is_available}</var>
+<arg>${product}</arg>
+<arg>is_available</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:20.745" level="INFO">${is_available} = True</msg>
+<status status="PASS" starttime="20231105 10:14:20.745" endtime="20231105 10:14:20.745"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${is_available} == True</arg>
+<arg>Return From Keyword</arg>
+<arg>${product}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<kw name="Return From Keyword" library="BuiltIn">
+<arg>${product}</arg>
+<doc>Returns from the enclosing user keyword.</doc>
+<msg timestamp="20231105 10:14:20.747" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" starttime="20231105 10:14:20.747" endtime="20231105 10:14:20.747"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.746" endtime="20231105 10:14:20.747"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.744" endtime="20231105 10:14:20.747"/>
+</iter>
+<status status="PASS" starttime="20231105 10:14:20.744" endtime="20231105 10:14:20.748"/>
+</for>
+<msg timestamp="20231105 10:14:20.748" level="INFO">${available_product} = {'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.720" endtime="20231105 10:14:20.748"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${products_to_be_add}</var>
+<arg>product_id=${available_product}[id]</arg>
+<arg>quantity=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231105 10:14:20.750" level="INFO">${products_to_be_add} = {'product_id': 101, 'quantity': '1'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.748" endtime="20231105 10:14:20.750"/>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<var>${cart_list}</var>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20231105 10:14:20.751" level="INFO">${cart_list} = []</msg>
+<status status="PASS" starttime="20231105 10:14:20.750" endtime="20231105 10:14:20.751"/>
+</kw>
+<kw name="Append To List" library="Collections">
+<arg>${cart_list}</arg>
+<arg>${products_to_be_add}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20231105 10:14:20.751" endtime="20231105 10:14:20.752"/>
+</kw>
+<kw name="PATCH" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CART_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<arg>json=${cart_list}</arg>
+<doc>Sends a PUT request.</doc>
+<msg timestamp="20231105 10:14:20.807" level="INFO">PATCH Request : url=http://localhost:80/cart/ 
+ path_url=/cart/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '38', 'Content-Type': 'application/json'} 
+ body=b'[{"product_id": 101, "quantity": "1"}]' 
+ </msg>
+<msg timestamp="20231105 10:14:20.807" level="INFO">PATCH Response : url=http://localhost:80/cart/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:19 GMT', 'server': 'uvicorn', 'content-length': '89', 'content-type': 'application/json'} 
+ body={"items":[{"quantity":1,"product_id":101,"name":"Stroopwaffel","price":1.5}],"total":1.5} 
+ </msg>
+<msg timestamp="20231105 10:14:20.807" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.752" endtime="20231105 10:14:20.807"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.809" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.807" endtime="20231105 10:14:20.809"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.720" endtime="20231105 10:14:20.810"/>
+</kw>
+<kw name="And I try to generate invalid token" library="Common">
+<doc>Generate a random string as auth token and creat an invalid header</doc>
+<kw name="Generate Auth Token" library="Common.CommonUtils">
+<var>${random_token}</var>
+<doc> Generate a random authentication token of the specified length.
+:param length: the required lenght of random string
+ :return random string with given length</doc>
+<msg timestamp="20231105 10:14:20.812" level="INFO">${random_token} = WXeAqeGOAntHlL9B</msg>
+<status status="PASS" starttime="20231105 10:14:20.811" endtime="20231105 10:14:20.812"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${random_token}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20231105 10:14:20.812" endtime="20231105 10:14:20.813"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${invalid_header}</var>
+<arg>x-auth=${random_token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231105 10:14:20.814" level="INFO">${invalid_header} = {'x-auth': 'WXeAqeGOAntHlL9B'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.813" endtime="20231105 10:14:20.814"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${INVALID_AUTH_TOKEN}</arg>
+<arg>${invalid_header}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20231105 10:14:20.817" level="INFO">${INVALID_AUTH_TOKEN} = {'x-auth': 'WXeAqeGOAntHlL9B'}</msg>
+<status status="PASS" starttime="20231105 10:14:20.814" endtime="20231105 10:14:20.817"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.811" endtime="20231105 10:14:20.817"/>
+</kw>
+<kw name="When I clear the shopping cart with valid auth token ${INVALID_AUTH_TOKEN} with a status ${UNAUTHORZED_STATUS}" library="Cart_Keywords" sourcename="I clear the shopping cart with valid auth token ${auth_token} with a status ${status}">
+<doc>Perform the request to clear shopping cart with given auth token and expected status code</doc>
+<kw name="Clear shopping cart" library="Cart_Keywords">
+<arg>${auth_token}</arg>
+<arg>${status}</arg>
+<doc>Perform the request to clear shopping cart</doc>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CLEAR_CART_ENDPOINT}</arg>
+<arg>headers=${auth_token}</arg>
+<arg>expected_status=${status_code}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231105 10:14:20.831" level="INFO">POST Request : url=http://localhost:80/cart/clear 
+ path_url=/cart/clear 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'WXeAqeGOAntHlL9B', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.831" level="INFO">POST Response : url=http://localhost:80/cart/clear 
+ status=401, reason=Unauthorized 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '32', 'content-type': 'application/json'} 
+ body={"detail":"Unauthorized Access"} 
+ </msg>
+<msg timestamp="20231105 10:14:20.831" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.820" endtime="20231105 10:14:20.831"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status_code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.834" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.832" endtime="20231105 10:14:20.834"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.819" endtime="20231105 10:14:20.834"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.818" endtime="20231105 10:14:20.834"/>
+</kw>
+<kw name="Then I verify the shopping cart is not empty" library="Cart_Keywords">
+<doc>Verify the API to non empty cart</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CART_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:20.861" level="INFO">GET Request : url=http://localhost:80/cart/ 
+ path_url=/cart/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.861" level="INFO">GET Response : url=http://localhost:80/cart/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '89', 'content-type': 'application/json'} 
+ body={"items":[{"quantity":1,"product_id":101,"name":"Stroopwaffel","price":1.5}],"total":1.5} 
+ </msg>
+<msg timestamp="20231105 10:14:20.861" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.838" endtime="20231105 10:14:20.861"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.864" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.862" endtime="20231105 10:14:20.864"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${cart_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231105 10:14:20.866" level="INFO">${cart_data} = {'items': [{'quantity': 1, 'product_id': 101, 'name': 'Stroopwaffel', 'price': 1.5}], 'total': 1.5}</msg>
+<status status="PASS" starttime="20231105 10:14:20.864" endtime="20231105 10:14:20.866"/>
+</kw>
+<kw name="Validate Non Empty Cart Data" library="Cart_Keywords">
+<arg>${cart_data}</arg>
+<doc>Check whether the given cart data is matching with non empty cart informarion</doc>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${cart_data}[items]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20231105 10:14:20.868" level="INFO">Length is 1</msg>
+<status status="PASS" starttime="20231105 10:14:20.868" endtime="20231105 10:14:20.868"/>
+</kw>
+<kw name="Should Not Be Equal As Numbers" library="BuiltIn">
+<arg>${cart_data}[total]</arg>
+<arg>${EMPTY_CART_SIZE}</arg>
+<doc>Fails if objects are equal after converting them to real numbers.</doc>
+<msg timestamp="20231105 10:14:20.869" level="INFO">Argument types are:
+&lt;class 'float'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.869" endtime="20231105 10:14:20.870"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.867" endtime="20231105 10:14:20.870"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.838" endtime="20231105 10:14:20.870"/>
+</kw>
+<doc>Test the API endpoint that clears the shopping cart with an invalid auth token</doc>
+<tag>cart</tag>
+<tag>cart-error-handling</tag>
+<tag>P0</tag>
+<status status="PASS" starttime="20231105 10:14:20.718" endtime="20231105 10:14:20.871"/>
+</test>
+<kw name="Suite Teardown With Authenitcation" library="Cart_Keywords" type="TEARDOWN">
+<doc>The teardown to make sure that the cart is empty for the given authentication token
+and delete the token</doc>
+<kw name="Clear shopping cart" library="Cart_Keywords">
+<arg>${AUTH_TOKEN}</arg>
+<doc>Perform the request to clear shopping cart</doc>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${CLEAR_CART_ENDPOINT}</arg>
+<arg>headers=${auth_token}</arg>
+<arg>expected_status=${status_code}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231105 10:14:20.927" level="INFO">POST Request : url=http://localhost:80/cart/clear 
+ path_url=/cart/clear 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.927" level="INFO">POST Response : url=http://localhost:80/cart/clear 
+ status=204, reason=No Content 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.928" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.879" endtime="20231105 10:14:20.928"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status_code}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.930" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.928" endtime="20231105 10:14:20.930"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.877" endtime="20231105 10:14:20.930"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${AUTH_ENDPOINT}</arg>
+<arg>headers=${AUTH_TOKEN}</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20231105 10:14:20.974" level="INFO">DELETE Request : url=http://localhost:80/auth/ 
+ path_url=/auth/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'x-auth': 'afe1733b-f363-4c6e-be36-e739b846ea79', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.974" level="INFO">DELETE Response : url=http://localhost:80/auth/ 
+ status=204, reason=No Content 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:20.974" level="INFO">${response} = &lt;Response [204]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.931" endtime="20231105 10:14:20.974"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>204</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:20.976" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:20.974" endtime="20231105 10:14:20.976"/>
+</kw>
+<kw name="Delete All Sessions" library="RequestsLibrary">
+<doc>Removes all the session objects</doc>
+<msg timestamp="20231105 10:14:20.977" level="INFO">Deleting All Sessions</msg>
+<status status="PASS" starttime="20231105 10:14:20.977" endtime="20231105 10:14:20.977"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:20.876" endtime="20231105 10:14:20.977"/>
+</kw>
+<doc>Tests for Cart API</doc>
+<status status="PASS" starttime="20231105 10:14:19.670" endtime="20231105 10:14:20.977"/>
+</suite>
+<status status="PASS" starttime="20231105 10:14:19.643" endtime="20231105 10:14:20.982"/>
+</suite>
+<suite id="s1-s2" name="Product" source="C:\MyLab\picnic-qa-jijojose1691\Tests\Product">
+<suite id="s1-s2-s1" name="Product Api" source="C:\MyLab\picnic-qa-jijojose1691\Tests\Product\Product_Api.robot">
+<kw name="Test Suite Setup" library="Common" type="SETUP">
+<doc>Default test suit setup</doc>
+<kw name="Set Server Base URL" library="Common">
+<doc>The method is to set the base URL of server where application is hosted</doc>
+<kw name="Get Variable Value" library="BuiltIn">
+<var>${HOST_IP}</var>
+<arg>${HOST_IP}</arg>
+<arg>localhost</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<msg timestamp="20231105 10:14:21.052" level="INFO">${HOST_IP} = localhost</msg>
+<status status="PASS" starttime="20231105 10:14:21.046" endtime="20231105 10:14:21.052"/>
+</kw>
+<kw name="Get Variable Value" library="BuiltIn">
+<var>${HOST_PORT}</var>
+<arg>${HOST_PORT}</arg>
+<arg>80</arg>
+<doc>Returns variable value or ``default`` if the variable does not exist.</doc>
+<msg timestamp="20231105 10:14:21.061" level="INFO">${HOST_PORT} = 80</msg>
+<status status="PASS" starttime="20231105 10:14:21.053" endtime="20231105 10:14:21.061"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${BASE_URL}</arg>
+<arg>http://${HOST_IP}:${HOST_PORT}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20231105 10:14:21.064" level="INFO">${BASE_URL} = http://localhost:80</msg>
+<status status="PASS" starttime="20231105 10:14:21.061" endtime="20231105 10:14:21.064"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>BASE URL: ${BASE_URL}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231105 10:14:21.065" level="INFO">BASE URL: http://localhost:80</msg>
+<status status="PASS" starttime="20231105 10:14:21.064" endtime="20231105 10:14:21.065"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.045" endtime="20231105 10:14:21.065"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.045" endtime="20231105 10:14:21.065"/>
+</kw>
+<test id="s1-s2-s1-t1" name="[Product API] Fetch product deatils list" line="9">
+<kw name="When I recieve the default product list" library="Product_Keywords">
+<doc>Recieve default products list via /products API</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:21.096" level="INFO">GET Request : url=http://localhost:80/products/ 
+ path_url=/products/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:21.096" level="INFO">GET Response : url=http://localhost:80/products/ 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '503', 'content-type': 'application/json'} 
+ body={"products":[{"is_available":true,"id":101,"name":"Stroopwaffel","price":1.5,"category":"SWEET"},{"is_available":true,"id":102,"name":"Banana","price":0.7,"category":"FRUIT"},{"is_available":true,"id":103,"name":"Cola","price":0.85,"category":"BEVERAGE"},{"is_available":false,"id":104,"name":"Bread","price":0.85,"category":"WHEAT"},{"is_available":false,"id":105,"name":"Milk","price":0.7,"category":"BEVERAGE"},{"is_available":false,"id":106,"name":"Apple","price":0.7,"category":"FRUIT"}],"count":6} 
+ </msg>
+<msg timestamp="20231105 10:14:21.097" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.075" endtime="20231105 10:14:21.097"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.100" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.097" endtime="20231105 10:14:21.100"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<arg>${response.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231105 10:14:21.105" level="INFO">${PRODUCT_API_RESPONSE} = {'products': [{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}, {'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}, {'is...</msg>
+<status status="PASS" starttime="20231105 10:14:21.100" endtime="20231105 10:14:21.105"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.074" endtime="20231105 10:14:21.105"/>
+</kw>
+<kw name="Then I verify that product list is not empty" library="Product_Keywords">
+<kw name="Verify Product List Size" library="Product_Keywords">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Confirm that the value of the "count" key matches the number of items in the "products" list.</doc>
+<kw name="Get Length" library="BuiltIn">
+<var>${products_count}</var>
+<arg>${product_list}[products]</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<msg timestamp="20231105 10:14:21.108" level="INFO">Length is 6</msg>
+<msg timestamp="20231105 10:14:21.108" level="INFO">${products_count} = 6</msg>
+<status status="PASS" starttime="20231105 10:14:21.108" endtime="20231105 10:14:21.108"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${products_count}</arg>
+<arg>${product_list}[count]</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" starttime="20231105 10:14:21.108" endtime="20231105 10:14:21.109"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.107" endtime="20231105 10:14:21.109"/>
+</kw>
+<kw name="Validate Products List Details" library="Product_Keywords">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Check whether the given product list response contains the required elements with
+required data type</doc>
+<for flavor="IN">
+<var>${product}</var>
+<value>@{product_list}[products]</value>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.112" endtime="20231105 10:14:21.112"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.114" level="INFO">${value} = 1.5</msg>
+<status status="PASS" starttime="20231105 10:14:21.114" endtime="20231105 10:14:21.114"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.116" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.115" endtime="20231105 10:14:21.116"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.116" endtime="20231105 10:14:21.117"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.112" endtime="20231105 10:14:21.117"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.111" endtime="20231105 10:14:21.117"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.118" endtime="20231105 10:14:21.119"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.120" level="INFO">${value} = SWEET</msg>
+<status status="PASS" starttime="20231105 10:14:21.119" endtime="20231105 10:14:21.120"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.121" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.120" endtime="20231105 10:14:21.121"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.121" endtime="20231105 10:14:21.123"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.119" endtime="20231105 10:14:21.123"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.117" endtime="20231105 10:14:21.123"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.124" endtime="20231105 10:14:21.124"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.126" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.126" endtime="20231105 10:14:21.126"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.127" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.126" endtime="20231105 10:14:21.127"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.128" endtime="20231105 10:14:21.128"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.124" endtime="20231105 10:14:21.128"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.123" endtime="20231105 10:14:21.128"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.129" endtime="20231105 10:14:21.129"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.131" level="INFO">${value} = 101</msg>
+<status status="PASS" starttime="20231105 10:14:21.131" endtime="20231105 10:14:21.131"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.132" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.132" endtime="20231105 10:14:21.133"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.133" endtime="20231105 10:14:21.134"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.130" endtime="20231105 10:14:21.134"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.128" endtime="20231105 10:14:21.134"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.135" endtime="20231105 10:14:21.136"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.138" level="INFO">${value} = Stroopwaffel</msg>
+<status status="PASS" starttime="20231105 10:14:21.137" endtime="20231105 10:14:21.138"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.140" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.139" endtime="20231105 10:14:21.140"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.141" endtime="20231105 10:14:21.142"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.136" endtime="20231105 10:14:21.142"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.134" endtime="20231105 10:14:21.143"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.111" endtime="20231105 10:14:21.143"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.145" endtime="20231105 10:14:21.145"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.149" level="INFO">${value} = 0.7</msg>
+<status status="PASS" starttime="20231105 10:14:21.148" endtime="20231105 10:14:21.150"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.151" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.150" endtime="20231105 10:14:21.151"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.151" endtime="20231105 10:14:21.152"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.146" endtime="20231105 10:14:21.152"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.144" endtime="20231105 10:14:21.152"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.154" endtime="20231105 10:14:21.154"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.157" level="INFO">${value} = FRUIT</msg>
+<status status="PASS" starttime="20231105 10:14:21.156" endtime="20231105 10:14:21.157"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.158" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.157" endtime="20231105 10:14:21.158"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.158" endtime="20231105 10:14:21.159"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.155" endtime="20231105 10:14:21.159"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.153" endtime="20231105 10:14:21.159"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.160" endtime="20231105 10:14:21.161"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.164" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.163" endtime="20231105 10:14:21.164"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.166" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.165" endtime="20231105 10:14:21.166"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.166" endtime="20231105 10:14:21.167"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.161" endtime="20231105 10:14:21.167"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.160" endtime="20231105 10:14:21.168"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.169" endtime="20231105 10:14:21.170"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.172" level="INFO">${value} = 102</msg>
+<status status="PASS" starttime="20231105 10:14:21.171" endtime="20231105 10:14:21.172"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.173" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.172" endtime="20231105 10:14:21.173"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.173" endtime="20231105 10:14:21.174"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.170" endtime="20231105 10:14:21.174"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.168" endtime="20231105 10:14:21.174"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.175" endtime="20231105 10:14:21.176"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.179" level="INFO">${value} = Banana</msg>
+<status status="PASS" starttime="20231105 10:14:21.178" endtime="20231105 10:14:21.179"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.180" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.179" endtime="20231105 10:14:21.180"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.180" endtime="20231105 10:14:21.181"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.177" endtime="20231105 10:14:21.181"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.174" endtime="20231105 10:14:21.181"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.143" endtime="20231105 10:14:21.181"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 103, 'name': 'Cola', 'price': 0.85, 'category': 'BEVERAGE'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.183" endtime="20231105 10:14:21.184"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.186" level="INFO">${value} = 0.85</msg>
+<status status="PASS" starttime="20231105 10:14:21.185" endtime="20231105 10:14:21.186"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.187" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.186" endtime="20231105 10:14:21.187"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.187" endtime="20231105 10:14:21.188"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.184" endtime="20231105 10:14:21.188"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.182" endtime="20231105 10:14:21.188"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.189" endtime="20231105 10:14:21.190"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.192" level="INFO">${value} = BEVERAGE</msg>
+<status status="PASS" starttime="20231105 10:14:21.191" endtime="20231105 10:14:21.192"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.193" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.192" endtime="20231105 10:14:21.193"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.193" endtime="20231105 10:14:21.194"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.190" endtime="20231105 10:14:21.194"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.188" endtime="20231105 10:14:21.194"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.196" endtime="20231105 10:14:21.197"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.199" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.198" endtime="20231105 10:14:21.199"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.200" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.199" endtime="20231105 10:14:21.200"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.200" endtime="20231105 10:14:21.201"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.197" endtime="20231105 10:14:21.201"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.195" endtime="20231105 10:14:21.201"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.202" endtime="20231105 10:14:21.203"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.205" level="INFO">${value} = 103</msg>
+<status status="PASS" starttime="20231105 10:14:21.204" endtime="20231105 10:14:21.205"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.207" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.206" endtime="20231105 10:14:21.207"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.207" endtime="20231105 10:14:21.208"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.203" endtime="20231105 10:14:21.208"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.201" endtime="20231105 10:14:21.208"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.210" endtime="20231105 10:14:21.210"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.213" level="INFO">${value} = Cola</msg>
+<status status="PASS" starttime="20231105 10:14:21.212" endtime="20231105 10:14:21.214"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.215" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.214" endtime="20231105 10:14:21.215"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.215" endtime="20231105 10:14:21.216"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.211" endtime="20231105 10:14:21.216"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.209" endtime="20231105 10:14:21.216"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.182" endtime="20231105 10:14:21.216"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': False, 'id': 104, 'name': 'Bread', 'price': 0.85, 'category': 'WHEAT'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.218" endtime="20231105 10:14:21.218"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.221" level="INFO">${value} = 0.85</msg>
+<status status="PASS" starttime="20231105 10:14:21.220" endtime="20231105 10:14:21.221"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.222" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.221" endtime="20231105 10:14:21.222"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.222" endtime="20231105 10:14:21.223"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.219" endtime="20231105 10:14:21.223"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.217" endtime="20231105 10:14:21.223"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.224" endtime="20231105 10:14:21.225"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.227" level="INFO">${value} = WHEAT</msg>
+<status status="PASS" starttime="20231105 10:14:21.226" endtime="20231105 10:14:21.227"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.228" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.227" endtime="20231105 10:14:21.228"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.228" endtime="20231105 10:14:21.229"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.225" endtime="20231105 10:14:21.229"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.223" endtime="20231105 10:14:21.229"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.230" endtime="20231105 10:14:21.231"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.232" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.232" endtime="20231105 10:14:21.233"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.233" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.233" endtime="20231105 10:14:21.234"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.234" endtime="20231105 10:14:21.234"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.231" endtime="20231105 10:14:21.235"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.229" endtime="20231105 10:14:21.235"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.236" endtime="20231105 10:14:21.236"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.238" level="INFO">${value} = 104</msg>
+<status status="PASS" starttime="20231105 10:14:21.238" endtime="20231105 10:14:21.238"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.239" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.239" endtime="20231105 10:14:21.239"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.240" endtime="20231105 10:14:21.241"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.237" endtime="20231105 10:14:21.241"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.235" endtime="20231105 10:14:21.241"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.242" endtime="20231105 10:14:21.243"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.245" level="INFO">${value} = Bread</msg>
+<status status="PASS" starttime="20231105 10:14:21.245" endtime="20231105 10:14:21.246"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.247" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.246" endtime="20231105 10:14:21.247"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.247" endtime="20231105 10:14:21.248"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.243" endtime="20231105 10:14:21.248"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.241" endtime="20231105 10:14:21.248"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.217" endtime="20231105 10:14:21.248"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': False, 'id': 105, 'name': 'Milk', 'price': 0.7, 'category': 'BEVERAGE'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.249" endtime="20231105 10:14:21.250"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.252" level="INFO">${value} = 0.7</msg>
+<status status="PASS" starttime="20231105 10:14:21.251" endtime="20231105 10:14:21.252"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.253" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.252" endtime="20231105 10:14:21.253"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.253" endtime="20231105 10:14:21.254"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.250" endtime="20231105 10:14:21.254"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.248" endtime="20231105 10:14:21.254"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.256" endtime="20231105 10:14:21.256"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.259" level="INFO">${value} = BEVERAGE</msg>
+<status status="PASS" starttime="20231105 10:14:21.258" endtime="20231105 10:14:21.260"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.261" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.260" endtime="20231105 10:14:21.261"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.261" endtime="20231105 10:14:21.262"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.257" endtime="20231105 10:14:21.262"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.255" endtime="20231105 10:14:21.262"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.263" endtime="20231105 10:14:21.263"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.266" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.265" endtime="20231105 10:14:21.266"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.267" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.266" endtime="20231105 10:14:21.267"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.267" endtime="20231105 10:14:21.268"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.264" endtime="20231105 10:14:21.268"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.262" endtime="20231105 10:14:21.268"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.269" endtime="20231105 10:14:21.270"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.272" level="INFO">${value} = 105</msg>
+<status status="PASS" starttime="20231105 10:14:21.271" endtime="20231105 10:14:21.272"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.273" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.273" endtime="20231105 10:14:21.273"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.274" endtime="20231105 10:14:21.274"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.270" endtime="20231105 10:14:21.274"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.268" endtime="20231105 10:14:21.275"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.276" endtime="20231105 10:14:21.277"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.280" level="INFO">${value} = Milk</msg>
+<status status="PASS" starttime="20231105 10:14:21.279" endtime="20231105 10:14:21.280"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.282" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.281" endtime="20231105 10:14:21.282"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.282" endtime="20231105 10:14:21.283"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.277" endtime="20231105 10:14:21.283"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.275" endtime="20231105 10:14:21.283"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.248" endtime="20231105 10:14:21.283"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': False, 'id': 106, 'name': 'Apple', 'price': 0.7, 'category': 'FRUIT'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.285" endtime="20231105 10:14:21.286"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.288" level="INFO">${value} = 0.7</msg>
+<status status="PASS" starttime="20231105 10:14:21.288" endtime="20231105 10:14:21.289"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.290" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.289" endtime="20231105 10:14:21.290"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.290" endtime="20231105 10:14:21.291"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.286" endtime="20231105 10:14:21.291"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.284" endtime="20231105 10:14:21.291"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.292" endtime="20231105 10:14:21.293"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.295" level="INFO">${value} = FRUIT</msg>
+<status status="PASS" starttime="20231105 10:14:21.294" endtime="20231105 10:14:21.295"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.297" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.295" endtime="20231105 10:14:21.297"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.297" endtime="20231105 10:14:21.297"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.293" endtime="20231105 10:14:21.297"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.291" endtime="20231105 10:14:21.297"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.299" endtime="20231105 10:14:21.299"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.302" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.301" endtime="20231105 10:14:21.302"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.304" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.302" endtime="20231105 10:14:21.304"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.304" endtime="20231105 10:14:21.305"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.300" endtime="20231105 10:14:21.305"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.298" endtime="20231105 10:14:21.305"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.307" endtime="20231105 10:14:21.307"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.319" level="INFO">${value} = 106</msg>
+<status status="PASS" starttime="20231105 10:14:21.309" endtime="20231105 10:14:21.319"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.320" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.319" endtime="20231105 10:14:21.321"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.321" endtime="20231105 10:14:21.322"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.308" endtime="20231105 10:14:21.322"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.306" endtime="20231105 10:14:21.322"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.323" endtime="20231105 10:14:21.324"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.327" level="INFO">${value} = Apple</msg>
+<status status="PASS" starttime="20231105 10:14:21.326" endtime="20231105 10:14:21.327"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.328" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.327" endtime="20231105 10:14:21.328"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.328" endtime="20231105 10:14:21.329"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.324" endtime="20231105 10:14:21.329"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.322" endtime="20231105 10:14:21.329"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.284" endtime="20231105 10:14:21.329"/>
+</iter>
+<status status="PASS" starttime="20231105 10:14:21.110" endtime="20231105 10:14:21.329"/>
+</for>
+<status status="PASS" starttime="20231105 10:14:21.110" endtime="20231105 10:14:21.329"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.106" endtime="20231105 10:14:21.329"/>
+</kw>
+<doc>Test the API endpoint that returns a list of products</doc>
+<tag>P0</tag>
+<tag>product</tag>
+<status status="PASS" starttime="20231105 10:14:21.066" endtime="20231105 10:14:21.330"/>
+</test>
+<test id="s1-s2-s1-t2" name="[Product API] Fetch product deatils list with limit" line="15">
+<kw name="When I recieve the default product list with a limit" library="Product_Keywords">
+<arg>${PRODUCT_LIST_LIMIT}</arg>
+<doc>Recieve default products list via /products API with limit parameter</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}</arg>
+<arg>params=limit=${product_list_limit}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:21.351" level="INFO">GET Request : url=http://localhost:80/products/?limit=5 
+ path_url=/products/?limit=5 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:21.352" level="INFO">GET Response : url=http://localhost:80/products/?limit=5 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '425', 'content-type': 'application/json'} 
+ body={"products":[{"is_available":true,"id":101,"name":"Stroopwaffel","price":1.5,"category":"SWEET"},{"is_available":true,"id":102,"name":"Banana","price":0.7,"category":"FRUIT"},{"is_available":true,"id":103,"name":"Cola","price":0.85,"category":"BEVERAGE"},{"is_available":false,"id":104,"name":"Bread","price":0.85,"category":"WHEAT"},{"is_available":false,"id":105,"name":"Milk","price":0.7,"category":"BEVERAGE"}],"count":5} 
+ </msg>
+<msg timestamp="20231105 10:14:21.354" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.338" endtime="20231105 10:14:21.355"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.358" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.355" endtime="20231105 10:14:21.358"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<arg>${response.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231105 10:14:21.364" level="INFO">${PRODUCT_API_RESPONSE} = {'products': [{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}, {'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}, {'is...</msg>
+<status status="PASS" starttime="20231105 10:14:21.358" endtime="20231105 10:14:21.364"/>
+</kw>
+<kw name="Get Length" library="BuiltIn">
+<var>${products_count}</var>
+<arg>${PRODUCT_API_RESPONSE}[products]</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<msg timestamp="20231105 10:14:21.365" level="INFO">Length is 5</msg>
+<msg timestamp="20231105 10:14:21.366" level="INFO">${products_count} = 5</msg>
+<status status="PASS" starttime="20231105 10:14:21.364" endtime="20231105 10:14:21.366"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${products_count}</arg>
+<arg>${product_list_limit}</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20231105 10:14:21.367" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.366" endtime="20231105 10:14:21.367"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.337" endtime="20231105 10:14:21.367"/>
+</kw>
+<kw name="Then I verify that product list is not empty" library="Product_Keywords">
+<kw name="Verify Product List Size" library="Product_Keywords">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Confirm that the value of the "count" key matches the number of items in the "products" list.</doc>
+<kw name="Get Length" library="BuiltIn">
+<var>${products_count}</var>
+<arg>${product_list}[products]</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<msg timestamp="20231105 10:14:21.372" level="INFO">Length is 5</msg>
+<msg timestamp="20231105 10:14:21.372" level="INFO">${products_count} = 5</msg>
+<status status="PASS" starttime="20231105 10:14:21.371" endtime="20231105 10:14:21.372"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${products_count}</arg>
+<arg>${product_list}[count]</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" starttime="20231105 10:14:21.372" endtime="20231105 10:14:21.373"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.369" endtime="20231105 10:14:21.373"/>
+</kw>
+<kw name="Validate Products List Details" library="Product_Keywords">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Check whether the given product list response contains the required elements with
+required data type</doc>
+<for flavor="IN">
+<var>${product}</var>
+<value>@{product_list}[products]</value>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 101, 'name': 'Stroopwaffel', 'price': 1.5, 'category': 'SWEET'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.376" endtime="20231105 10:14:21.376"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.378" level="INFO">${value} = 1.5</msg>
+<status status="PASS" starttime="20231105 10:14:21.378" endtime="20231105 10:14:21.378"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.379" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.379" endtime="20231105 10:14:21.379"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.380" endtime="20231105 10:14:21.380"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.377" endtime="20231105 10:14:21.380"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.375" endtime="20231105 10:14:21.381"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.382" endtime="20231105 10:14:21.382"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.384" level="INFO">${value} = SWEET</msg>
+<status status="PASS" starttime="20231105 10:14:21.383" endtime="20231105 10:14:21.384"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.385" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.384" endtime="20231105 10:14:21.385"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.386" endtime="20231105 10:14:21.387"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.382" endtime="20231105 10:14:21.387"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.381" endtime="20231105 10:14:21.387"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.388" endtime="20231105 10:14:21.389"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.391" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.390" endtime="20231105 10:14:21.391"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.392" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.391" endtime="20231105 10:14:21.392"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.392" endtime="20231105 10:14:21.393"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.389" endtime="20231105 10:14:21.393"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.387" endtime="20231105 10:14:21.393"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.394" endtime="20231105 10:14:21.394"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.398" level="INFO">${value} = 101</msg>
+<status status="PASS" starttime="20231105 10:14:21.395" endtime="20231105 10:14:21.398"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.400" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.398" endtime="20231105 10:14:21.400"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.401" endtime="20231105 10:14:21.403"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.394" endtime="20231105 10:14:21.403"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.393" endtime="20231105 10:14:21.403"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.404" endtime="20231105 10:14:21.405"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.407" level="INFO">${value} = Stroopwaffel</msg>
+<status status="PASS" starttime="20231105 10:14:21.406" endtime="20231105 10:14:21.407"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.408" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.407" endtime="20231105 10:14:21.408"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.409" endtime="20231105 10:14:21.409"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.405" endtime="20231105 10:14:21.409"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.403" endtime="20231105 10:14:21.410"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.375" endtime="20231105 10:14:21.410"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 102, 'name': 'Banana', 'price': 0.7, 'category': 'FRUIT'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.411" endtime="20231105 10:14:21.412"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.414" level="INFO">${value} = 0.7</msg>
+<status status="PASS" starttime="20231105 10:14:21.414" endtime="20231105 10:14:21.414"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.415" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.415" endtime="20231105 10:14:21.416"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.416" endtime="20231105 10:14:21.416"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.412" endtime="20231105 10:14:21.417"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.410" endtime="20231105 10:14:21.417"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.418" endtime="20231105 10:14:21.419"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.422" level="INFO">${value} = FRUIT</msg>
+<status status="PASS" starttime="20231105 10:14:21.421" endtime="20231105 10:14:21.422"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.423" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.422" endtime="20231105 10:14:21.423"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.423" endtime="20231105 10:14:21.424"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.419" endtime="20231105 10:14:21.424"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.417" endtime="20231105 10:14:21.425"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.426" endtime="20231105 10:14:21.427"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.429" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.429" endtime="20231105 10:14:21.429"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.431" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.430" endtime="20231105 10:14:21.431"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.431" endtime="20231105 10:14:21.432"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.427" endtime="20231105 10:14:21.432"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.425" endtime="20231105 10:14:21.432"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.433" endtime="20231105 10:14:21.434"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.436" level="INFO">${value} = 102</msg>
+<status status="PASS" starttime="20231105 10:14:21.435" endtime="20231105 10:14:21.436"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.437" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.436" endtime="20231105 10:14:21.437"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.437" endtime="20231105 10:14:21.438"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.434" endtime="20231105 10:14:21.438"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.432" endtime="20231105 10:14:21.438"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.440" endtime="20231105 10:14:21.440"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.443" level="INFO">${value} = Banana</msg>
+<status status="PASS" starttime="20231105 10:14:21.442" endtime="20231105 10:14:21.443"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.444" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.443" endtime="20231105 10:14:21.444"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.445" endtime="20231105 10:14:21.445"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.441" endtime="20231105 10:14:21.446"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.439" endtime="20231105 10:14:21.446"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.410" endtime="20231105 10:14:21.446"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': True, 'id': 103, 'name': 'Cola', 'price': 0.85, 'category': 'BEVERAGE'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.447" endtime="20231105 10:14:21.448"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.451" level="INFO">${value} = 0.85</msg>
+<status status="PASS" starttime="20231105 10:14:21.450" endtime="20231105 10:14:21.451"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.452" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.451" endtime="20231105 10:14:21.452"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.453" endtime="20231105 10:14:21.454"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.448" endtime="20231105 10:14:21.454"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.446" endtime="20231105 10:14:21.454"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.455" endtime="20231105 10:14:21.456"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.458" level="INFO">${value} = BEVERAGE</msg>
+<status status="PASS" starttime="20231105 10:14:21.457" endtime="20231105 10:14:21.458"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.460" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.459" endtime="20231105 10:14:21.460"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.460" endtime="20231105 10:14:21.461"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.456" endtime="20231105 10:14:21.461"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.454" endtime="20231105 10:14:21.461"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.463" endtime="20231105 10:14:21.463"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.466" level="INFO">${value} = True</msg>
+<status status="PASS" starttime="20231105 10:14:21.465" endtime="20231105 10:14:21.466"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.467" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.466" endtime="20231105 10:14:21.467"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.467" endtime="20231105 10:14:21.468"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.464" endtime="20231105 10:14:21.469"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.461" endtime="20231105 10:14:21.469"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.470" endtime="20231105 10:14:21.470"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.472" level="INFO">${value} = 103</msg>
+<status status="PASS" starttime="20231105 10:14:21.472" endtime="20231105 10:14:21.472"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.473" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.473" endtime="20231105 10:14:21.473"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.474" endtime="20231105 10:14:21.474"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.471" endtime="20231105 10:14:21.475"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.469" endtime="20231105 10:14:21.475"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.476" endtime="20231105 10:14:21.476"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.479" level="INFO">${value} = Cola</msg>
+<status status="PASS" starttime="20231105 10:14:21.478" endtime="20231105 10:14:21.479"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.480" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.479" endtime="20231105 10:14:21.480"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.480" endtime="20231105 10:14:21.481"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.477" endtime="20231105 10:14:21.481"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.475" endtime="20231105 10:14:21.481"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.446" endtime="20231105 10:14:21.481"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': False, 'id': 104, 'name': 'Bread', 'price': 0.85, 'category': 'WHEAT'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.483" endtime="20231105 10:14:21.484"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.487" level="INFO">${value} = 0.85</msg>
+<status status="PASS" starttime="20231105 10:14:21.486" endtime="20231105 10:14:21.487"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.488" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.487" endtime="20231105 10:14:21.488"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.488" endtime="20231105 10:14:21.489"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.484" endtime="20231105 10:14:21.489"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.482" endtime="20231105 10:14:21.489"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.490" endtime="20231105 10:14:21.491"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.495" level="INFO">${value} = WHEAT</msg>
+<status status="PASS" starttime="20231105 10:14:21.494" endtime="20231105 10:14:21.495"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.498" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.496" endtime="20231105 10:14:21.498"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.498" endtime="20231105 10:14:21.499"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.492" endtime="20231105 10:14:21.499"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.490" endtime="20231105 10:14:21.499"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.501" endtime="20231105 10:14:21.501"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.503" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.503" endtime="20231105 10:14:21.504"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.505" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.504" endtime="20231105 10:14:21.505"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.505" endtime="20231105 10:14:21.506"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.502" endtime="20231105 10:14:21.506"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.500" endtime="20231105 10:14:21.506"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.507" endtime="20231105 10:14:21.508"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.510" level="INFO">${value} = 104</msg>
+<status status="PASS" starttime="20231105 10:14:21.510" endtime="20231105 10:14:21.511"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.512" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.511" endtime="20231105 10:14:21.512"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.512" endtime="20231105 10:14:21.513"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.508" endtime="20231105 10:14:21.513"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.507" endtime="20231105 10:14:21.513"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.515" endtime="20231105 10:14:21.515"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.518" level="INFO">${value} = Bread</msg>
+<status status="PASS" starttime="20231105 10:14:21.517" endtime="20231105 10:14:21.518"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.519" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.518" endtime="20231105 10:14:21.519"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.519" endtime="20231105 10:14:21.520"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.516" endtime="20231105 10:14:21.520"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.513" endtime="20231105 10:14:21.520"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.482" endtime="20231105 10:14:21.520"/>
+</iter>
+<iter>
+<var name="${product}">{'is_available': False, 'id': 105, 'name': 'Milk', 'price': 0.7, 'category': 'BEVERAGE'}</var>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.521" endtime="20231105 10:14:21.522"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.524" level="INFO">${value} = 0.7</msg>
+<status status="PASS" starttime="20231105 10:14:21.523" endtime="20231105 10:14:21.525"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.526" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.525" endtime="20231105 10:14:21.526"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.526" endtime="20231105 10:14:21.526"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.522" endtime="20231105 10:14:21.527"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.521" endtime="20231105 10:14:21.527"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.528" endtime="20231105 10:14:21.529"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.531" level="INFO">${value} = BEVERAGE</msg>
+<status status="PASS" starttime="20231105 10:14:21.530" endtime="20231105 10:14:21.531"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.532" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.531" endtime="20231105 10:14:21.532"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.532" endtime="20231105 10:14:21.533"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.529" endtime="20231105 10:14:21.533"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.527" endtime="20231105 10:14:21.533"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.535" endtime="20231105 10:14:21.536"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.538" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.537" endtime="20231105 10:14:21.538"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.540" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.538" endtime="20231105 10:14:21.540"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.540" endtime="20231105 10:14:21.541"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.536" endtime="20231105 10:14:21.541"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.534" endtime="20231105 10:14:21.541"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.542" endtime="20231105 10:14:21.543"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.545" level="INFO">${value} = 105</msg>
+<status status="PASS" starttime="20231105 10:14:21.544" endtime="20231105 10:14:21.545"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.546" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.545" endtime="20231105 10:14:21.546"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.547" endtime="20231105 10:14:21.547"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.543" endtime="20231105 10:14:21.547"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.541" endtime="20231105 10:14:21.548"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.549" endtime="20231105 10:14:21.550"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.552" level="INFO">${value} = Milk</msg>
+<status status="PASS" starttime="20231105 10:14:21.551" endtime="20231105 10:14:21.552"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.553" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.553" endtime="20231105 10:14:21.554"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.554" endtime="20231105 10:14:21.555"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.550" endtime="20231105 10:14:21.555"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.548" endtime="20231105 10:14:21.555"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.520" endtime="20231105 10:14:21.555"/>
+</iter>
+<status status="PASS" starttime="20231105 10:14:21.374" endtime="20231105 10:14:21.555"/>
+</for>
+<status status="PASS" starttime="20231105 10:14:21.374" endtime="20231105 10:14:21.555"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.369" endtime="20231105 10:14:21.556"/>
+</kw>
+<doc>Test the API endpoint that returns a list of products for
+the given limit</doc>
+<tag>P0</tag>
+<tag>product</tag>
+<status status="PASS" starttime="20231105 10:14:21.334" endtime="20231105 10:14:21.557"/>
+</test>
+<test id="s1-s2-s1-t3" name="[Product API] Read single product deatil successfully" line="22">
+<kw name="When I recieve the product details of ${BREAD_PRODUCT_ID} with status ${STATUS_SUCCESS}" library="Product_Keywords" sourcename="I recieve the product details of ${product_id} with status ${status}">
+<doc>Recieve products details via /products/`targeted_product_id` API for the given product ID</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}${product_id}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:21.584" level="INFO">GET Request : url=http://localhost:80/products/104 
+ path_url=/products/104 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:21.584" level="INFO">GET Response : url=http://localhost:80/products/104 
+ status=200, reason=OK 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '78', 'content-type': 'application/json'} 
+ body={"name":"Bread","price":0.85,"category":"WHEAT","is_available":false,"id":104} 
+ </msg>
+<msg timestamp="20231105 10:14:21.585" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.567" endtime="20231105 10:14:21.585"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.589" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.587" endtime="20231105 10:14:21.589"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<arg>${response.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231105 10:14:21.595" level="INFO">${PRODUCT_API_RESPONSE} = {'name': 'Bread', 'price': 0.85, 'category': 'WHEAT', 'is_available': False, 'id': 104}</msg>
+<status status="PASS" starttime="20231105 10:14:21.590" endtime="20231105 10:14:21.595"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.566" endtime="20231105 10:14:21.595"/>
+</kw>
+<kw name="Then I verify the product details are not empty" library="Product_Keywords">
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20231105 10:14:21.598" level="INFO">Length is 5</msg>
+<status status="PASS" starttime="20231105 10:14:21.597" endtime="20231105 10:14:21.598"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.597" endtime="20231105 10:14:21.598"/>
+</kw>
+<kw name="And I verify that the product details response is accurate" library="Product_Keywords">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<doc>Validate the data types of items in the "products" key in response</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${product_data}[id]</arg>
+<arg>${BREAD_PRODUCT_ID}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.601" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.600" endtime="20231105 10:14:21.601"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${product_data}[name]</arg>
+<arg>${BREAD_PRODUCT_NAME}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.602" endtime="20231105 10:14:21.602"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product_data}</arg>
+<arg>price</arg>
+<arg>float</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.604" endtime="20231105 10:14:21.605"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.607" level="INFO">${value} = 0.85</msg>
+<status status="PASS" starttime="20231105 10:14:21.607" endtime="20231105 10:14:21.607"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.608" level="INFO">${current_type} = float</msg>
+<status status="PASS" starttime="20231105 10:14:21.608" endtime="20231105 10:14:21.608"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.609" endtime="20231105 10:14:21.609"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.605" endtime="20231105 10:14:21.609"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.603" endtime="20231105 10:14:21.610"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product_data}</arg>
+<arg>category</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.611" endtime="20231105 10:14:21.611"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.613" level="INFO">${value} = WHEAT</msg>
+<status status="PASS" starttime="20231105 10:14:21.612" endtime="20231105 10:14:21.613"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.614" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.613" endtime="20231105 10:14:21.614"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.614" endtime="20231105 10:14:21.615"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.611" endtime="20231105 10:14:21.615"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.610" endtime="20231105 10:14:21.615"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product_data}</arg>
+<arg>is_available</arg>
+<arg>bool</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.616" endtime="20231105 10:14:21.617"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.619" level="INFO">${value} = False</msg>
+<status status="PASS" starttime="20231105 10:14:21.618" endtime="20231105 10:14:21.619"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.621" level="INFO">${current_type} = bool</msg>
+<status status="PASS" starttime="20231105 10:14:21.620" endtime="20231105 10:14:21.621"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.621" endtime="20231105 10:14:21.622"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.617" endtime="20231105 10:14:21.622"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.615" endtime="20231105 10:14:21.622"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product_data}</arg>
+<arg>id</arg>
+<arg>int</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.624" endtime="20231105 10:14:21.625"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.627" level="INFO">${value} = 104</msg>
+<status status="PASS" starttime="20231105 10:14:21.626" endtime="20231105 10:14:21.627"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.628" level="INFO">${current_type} = int</msg>
+<status status="PASS" starttime="20231105 10:14:21.627" endtime="20231105 10:14:21.628"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.628" endtime="20231105 10:14:21.629"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.625" endtime="20231105 10:14:21.629"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.623" endtime="20231105 10:14:21.629"/>
+</kw>
+<kw name="Verify Response Data" library="Product_Keywords">
+<arg>${product_data}</arg>
+<arg>name</arg>
+<arg>str</arg>
+<doc>Validate the data types of the "product" and check if the provided data object
+contains the specified key. Ensure that the data type of the value matches the specified requirement.</doc>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.630" endtime="20231105 10:14:21.631"/>
+</kw>
+<kw name="Validate Response Value Type" library="Product_Keywords">
+<arg>${data}</arg>
+<arg>${key}</arg>
+<arg>${type}</arg>
+<doc>Confirm if the data type of the provided key matches the specified data type.</doc>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${response_string}</arg>
+<arg>${key}</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20231105 10:14:21.633" level="INFO">${value} = Bread</msg>
+<status status="PASS" starttime="20231105 10:14:21.632" endtime="20231105 10:14:21.633"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${current_type}</var>
+<arg>type($value).__name__</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.635" level="INFO">${current_type} = str</msg>
+<status status="PASS" starttime="20231105 10:14:21.633" endtime="20231105 10:14:21.635"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${current_type}</arg>
+<arg>${expected_type}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231105 10:14:21.635" endtime="20231105 10:14:21.636"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.631" endtime="20231105 10:14:21.637"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.630" endtime="20231105 10:14:21.637"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.599" endtime="20231105 10:14:21.637"/>
+</kw>
+<doc>Test the API endpoint that returns a single product detail for
+the given product ID</doc>
+<tag>P0</tag>
+<tag>product</tag>
+<status status="PASS" starttime="20231105 10:14:21.561" endtime="20231105 10:14:21.638"/>
+</test>
+<test id="s1-s2-s1-t4" name="[Product API] Try to fetch Get product details for a non existent id" line="30">
+<kw name="When I recieve the product details of ${NON_EXIST_PRODUCT_ID} with status ${NOT_FOUND_STATUS}" library="Product_Keywords" sourcename="I recieve the product details of ${product_id} with status ${status}">
+<doc>Recieve products details via /products/`targeted_product_id` API for the given product ID</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}${product_id}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:21.664" level="INFO">GET Request : url=http://localhost:80/products/0 
+ path_url=/products/0 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:21.665" level="INFO">GET Response : url=http://localhost:80/products/0 
+ status=404, reason=Not Found 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '30', 'content-type': 'application/json'} 
+ body={"detail":"Product not found"} 
+ </msg>
+<msg timestamp="20231105 10:14:21.665" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.645" endtime="20231105 10:14:21.665"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.669" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.666" endtime="20231105 10:14:21.670"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<arg>${response.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231105 10:14:21.676" level="INFO">${PRODUCT_API_RESPONSE} = {'detail': 'Product not found'}</msg>
+<status status="PASS" starttime="20231105 10:14:21.670" endtime="20231105 10:14:21.676"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.644" endtime="20231105 10:14:21.676"/>
+</kw>
+<kw name="Then I verify that error message ${ERROR_NON_EXISTING_PRODUCT} is present in response ${PRODUCT_API_RESPONSE}" library="Common" sourcename="I verify that error message ${error_message} is present in response ${response}">
+<doc>The keyword to verify whether the given error messsage is present
+in the given response</doc>
+<kw name="Verify error handling" library="Common">
+<arg>${response}</arg>
+<arg>${error_message}</arg>
+<doc>Verify whether the given response contain given error message</doc>
+<kw name="Evaluate" library="BuiltIn">
+<var>${response_string}</var>
+<arg>json.dumps($response)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.680" level="INFO">${response_string} = {"detail": "Product not found"}</msg>
+<status status="PASS" starttime="20231105 10:14:21.679" endtime="20231105 10:14:21.680"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response_string}</arg>
+<arg>${message}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.680" endtime="20231105 10:14:21.681"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.678" endtime="20231105 10:14:21.681"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.677" endtime="20231105 10:14:21.681"/>
+</kw>
+<doc>Test the API endpoint that returns a single product for
+the given ID which is not exist</doc>
+<tag>P1</tag>
+<tag>product</tag>
+<tag>product-error-handling</tag>
+<status status="PASS" starttime="20231105 10:14:21.642" endtime="20231105 10:14:21.717"/>
+</test>
+<test id="s1-s2-s1-t5" name="[Product API] Get product details for an invalid prodcut id" line="38">
+<kw name="When I recieve the product details of ${INVALID_PRODUCT_ID} with status ${VALIDATION_ERROR_STATUS}" library="Product_Keywords" sourcename="I recieve the product details of ${product_id} with status ${status}">
+<doc>Recieve products details via /products/`targeted_product_id` API for the given product ID</doc>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}${PRODUCTS_ENDPOINT}${product_id}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20231105 10:14:21.749" level="INFO">GET Request : url=http://localhost:80/products/xxx 
+ path_url=/products/xxx 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231105 10:14:21.750" level="INFO">GET Response : url=http://localhost:80/products/xxx 
+ status=422, reason=Unprocessable Entity 
+ headers={'date': 'Sun, 05 Nov 2023 09:14:20 GMT', 'server': 'uvicorn', 'content-length': '107', 'content-type': 'application/json'} 
+ body={"detail":[{"loc":["path","product_id"],"msg":"value is not a valid integer","type":"type_error.integer"}]} 
+ </msg>
+<msg timestamp="20231105 10:14:21.750" level="INFO">${response} = &lt;Response [422]&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.724" endtime="20231105 10:14:21.750"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${status}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20231105 10:14:21.753" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231105 10:14:21.750" endtime="20231105 10:14:21.753"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${PRODUCT_API_RESPONSE}</arg>
+<arg>${response.json()}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231105 10:14:21.759" level="INFO">${PRODUCT_API_RESPONSE} = {'detail': [{'loc': ['path', 'product_id'], 'msg': 'value is not a valid integer', 'type': 'type_error.integer'}]}</msg>
+<status status="PASS" starttime="20231105 10:14:21.753" endtime="20231105 10:14:21.759"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.722" endtime="20231105 10:14:21.759"/>
+</kw>
+<kw name="Then I verify that error message ${ERROR_UNPROCESSABLE_ENTITY} is present in response ${PRODUCT_API_RESPONSE}" library="Common" sourcename="I verify that error message ${error_message} is present in response ${response}">
+<doc>The keyword to verify whether the given error messsage is present
+in the given response</doc>
+<kw name="Verify error handling" library="Common">
+<arg>${response}</arg>
+<arg>${error_message}</arg>
+<doc>Verify whether the given response contain given error message</doc>
+<kw name="Evaluate" library="BuiltIn">
+<var>${response_string}</var>
+<arg>json.dumps($response)</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20231105 10:14:21.763" level="INFO">${response_string} = {"detail": [{"loc": ["path", "product_id"], "msg": "value is not a valid integer", "type": "type_error.integer"}]}</msg>
+<status status="PASS" starttime="20231105 10:14:21.762" endtime="20231105 10:14:21.763"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${response_string}</arg>
+<arg>${message}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231105 10:14:21.763" endtime="20231105 10:14:21.764"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.761" endtime="20231105 10:14:21.764"/>
+</kw>
+<status status="PASS" starttime="20231105 10:14:21.760" endtime="20231105 10:14:21.764"/>
+</kw>
+<doc>Test the API endpoint that returns a single product for
+the given invalid ID</doc>
+<tag>P0</tag>
+<tag>product</tag>
+<tag>product-error-handling</tag>
+<status status="PASS" starttime="20231105 10:14:21.720" endtime="20231105 10:14:21.765"/>
+</test>
+<kw name="Delete All Sessions" library="RequestsLibrary" type="TEARDOWN">
+<doc>Removes all the session objects</doc>
+<msg timestamp="20231105 10:14:21.769" level="INFO">Deleting All Sessions</msg>
+<status status="PASS" starttime="20231105 10:14:21.768" endtime="20231105 10:14:21.769"/>
+</kw>
+<doc>Tests for Product API</doc>
+<status status="PASS" starttime="20231105 10:14:20.997" endtime="20231105 10:14:21.769"/>
+</suite>
+<status status="PASS" starttime="20231105 10:14:20.987" endtime="20231105 10:14:21.776"/>
+</suite>
+<status status="PASS" starttime="20231105 10:14:19.562" endtime="20231105 10:14:21.805"/>
+</suite>
+<statistics>
+<total>
+<stat pass="8" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="3" fail="0" skip="0">cart</stat>
+<stat pass="1" fail="0" skip="0">cart-error-handling</stat>
+<stat pass="7" fail="0" skip="0">P0</stat>
+<stat pass="1" fail="0" skip="0">P1</stat>
+<stat pass="5" fail="0" skip="0">product</stat>
+<stat pass="2" fail="0" skip="0">product-error-handling</stat>
+</tag>
+<suite>
+<stat pass="8" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="3" fail="0" skip="0" id="s1-s1" name="Cart">Tests.Cart</stat>
+<stat pass="3" fail="0" skip="0" id="s1-s1-s1" name="Cart Api">Tests.Cart.Cart Api</stat>
+<stat pass="5" fail="0" skip="0" id="s1-s2" name="Product">Tests.Product</stat>
+<stat pass="5" fail="0" skip="0" id="s1-s2-s1" name="Product Api">Tests.Product.Product Api</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
